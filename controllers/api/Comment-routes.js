@@ -13,6 +13,10 @@ router.get('/', (req, res) => {
         }
     })
         .then(dbResponse => res.json(dbResponse))
+        .catch(err => {
+            console.log(err);
+            res.status(500).json(err);
+        });
 });
 
 router.get('/:id', (req, res) => {
@@ -24,7 +28,17 @@ router.get('/:id', (req, res) => {
             model: Post,
         }
     })
-        .then(dbResponse => res.json(dbResponse))
+        .then(dbResponse => {
+            if (!dbResponse) {
+                res.status(404).json({ message: 'comment not found' });
+                return;
+            }
+            res.json(dbResponse)
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json(err);
+        });
 });
 
 router.put('/:id', (req, res) => {
@@ -33,12 +47,32 @@ router.put('/:id', (req, res) => {
             id: req.params.id
         }
     })
-        .then(dbResponse => res.json(dbResponse));
+        .then(dbResponse => {
+            if (!dbResponse) {
+                res.status(404).json({ message: 'comment not found' });
+                return;
+            }
+            res.json(dbResponse)
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json(err);
+        });
 });
 
 router.delete('/:id', (req, res) => {
-    Comment.destroy({ where: { id: req.params.id }})
-        .then(dbResponse => res.json(dbResponse));
+    Comment.destroy({ where: { id: req.params.id } })
+        .then(dbResponse => {
+            if (!dbResponse) {
+                res.status(404).json({ message: 'comment not found' });
+                return;
+            }
+            res.json(dbResponse)
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json(err);
+        });
 });
 
-module.exports = router; 
+module.exports = router;
