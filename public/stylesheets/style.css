@@ -1,0 +1,9 @@
+:root {
+    --window-background: rgb(104, 175, 153);
+    --site-color: rgb(135, 237, 204);
+    background-color: var(--window-background);
+}
+
+body {
+    background-color: var(--site-color);
+}
