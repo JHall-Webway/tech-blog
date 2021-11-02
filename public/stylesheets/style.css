@@ -6,5 +6,6 @@
 
 body {
     background-color: var(--site-color);
+    padding-top: 100px;
 }
 

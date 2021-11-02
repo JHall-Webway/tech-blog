@@ -21,11 +21,11 @@
     <title>Tech Blog</title>
 </head>
 
-<body>
-    <header>
+<body class="container-fluid">
+    <header class="row">
         <!-- Fixed navbar -->
         <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-            <a class="navbar-brand" href="#">Tech Blog</a>
+            <a class="navbar-brand" href="/">Tech Blog</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
                 aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -38,21 +38,24 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#">Dashboard</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled" href="#">Login</a>
+                    {{#if loggedIn}}
+                    <li class="nav-item" id="logout">
+                        <a class="nav-link disabled" href="/logout">Logout</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled" href="#">Logout</a>
+                    {{else}}
+                    <li class="nav-item" id="login">
+                        <a class="nav-link disabled" href="/login">Login</a>
                     </li>
+                    {{/if}}
                 </ul>
             </div>
         </nav>
     </header>
 
-    <main>
+    <main class="row">
         {{{ body }}}
     </main>
-
+    <script src="./javascript/main.js"></script>
 </body>
 
 </html>
