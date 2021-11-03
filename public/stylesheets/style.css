@@ -1,11 +1,8 @@
 :root {
-    --window-background: rgb(104, 175, 153);
     --site-color: rgb(135, 237, 204);
-    background-color: var(--window-background);
+    --post-color: rgb(237, 237, 237);
 }
 
 body {
     background-color: var(--site-color);
-    padding-top: 100px;
 }
-

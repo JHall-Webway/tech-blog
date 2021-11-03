@@ -1,4 +1,4 @@
-$('#logout').click(async () => {
+logout = async () => {
     const response = await fetch('/api/users/logout', {
         method: 'post',
         headers: { 'Content-Type': 'application/json' }
@@ -9,4 +9,4 @@ $('#logout').click(async () => {
     } else {
         alert(response.statusText);
     }
-});
+}

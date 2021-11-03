@@ -13,8 +13,9 @@ $('.card-body').submit(async event => {
         headers: { 'Content-Type': 'application/json' }
     })
     if (response.ok) {
-        console.log(response);
+        document.location.replace('/dashboard');
     } else {
-        console.log('ERROR');
+        $('form')
+            .append($('<p>').text('Invalid Username/Password'));
     }
 });

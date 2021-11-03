@@ -1,12 +1,7 @@
 const express = require('express');
 const app = express();
-
-const helpers = require('./utils/helpers');
-app.engine('handlebars', require('express-handlebars').create({ helpers }).engine);
-app.set('view engine', 'handlebars');
-app.use(express.static(require('path').join(__dirname, 'public')));
-
 const sequelize = require('./config/connection');
+
 const SequelizeStore = require('connect-session-sequelize')(require('express-session').Store);
 app.use(require('express-session')({
     secret: process.env.SESSION,
@@ -15,6 +10,11 @@ app.use(require('express-session')({
     saveUninitialized: true,
     store: new SequelizeStore({ db: sequelize })
 }));
+
+const helpers = require('./utils/helpers');
+app.engine('handlebars', require('express-handlebars').create({ helpers }).engine);
+app.set('view engine', 'handlebars');
+app.use(express.static(require('path').join(__dirname, 'public')));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
