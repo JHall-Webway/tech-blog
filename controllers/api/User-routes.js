@@ -2,9 +2,22 @@ const router = require('express').Router();
 const { User, Post, Comment } = require('../../models');
 
 
-router.post('/', ({ body }, res) => {
-    User.create(body)
-        .then(dbResponse => res.json(dbResponse))
+router.post('/', (req, res) => {
+    User.create(req.body)
+        .then(dbResponse => {
+            if (!dbResponse) {
+                res.json(400).json({ message: 'Username taken' });
+                return;
+            }
+            req.session.save(() => {
+                req.session.user_id = dbResponse.id;
+                req.session.username = dbResponse.username;
+                req.session.loggedIn = true;
+
+                res.json({ message: 'You are now logged in!', user: dbResponse });
+                return;
+            });
+        })
         .catch(data => {
             let errorResponse = { message: 'POST request error', data }
             console.log(errorResponse);
@@ -97,12 +110,12 @@ router.post('/login', (req, res) => {
     User.findOne({ where: { username: req.body.username } })
         .then(dbUserData => {
             if (!dbUserData) {
-                res.status(400).json({ message: 'No user with that name' });
+                res.status(400).json({ message: 'Username not found' });
                 return;
             }
 
             if (!dbUserData.checkPassword(req.body.password)) {
-                res.status(400).json({ message: 'Incorrect password!' });
+                res.status(400).json({ message: 'Incorrect password' });
                 return;
             }
 

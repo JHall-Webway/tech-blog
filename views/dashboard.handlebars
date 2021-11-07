@@ -1,0 +1,58 @@
+<div class="m-3" id="new_post">
+    <label for="new_post">
+        <h5>
+            Create New Post
+        </h5>
+    </label>
+    <div class="mb-3">
+        <input type="text" class="form-control" id="titleInput" placeholder="Title">
+    </div>
+    <div class="mb-3">
+        <textarea class="form-control" id="bodyInput" rows="3"></textarea>
+    </div>
+    <button type="button" class="btn btn-primary btn-sm" onclick="createPost({{id}})">Post</button>
+</div>
+
+<div class="accordion" id="accordionContainer">
+    {{#if posts.length}}
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="headingOne">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+                aria-expanded="true" aria-controls="collapseOne">
+                Posts
+            </button>
+        </h2>
+        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+            data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+                <div class="container-fluid">
+                    <ul class="list-group list-group-flush">
+                        {{#each posts as |post|}}
+                        <li class="list-group-item bg-transparent">
+                            {{> post-card post}}
+                        </li>
+                        {{/each}}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{/if}}
+    {{#if comments.length}}
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="headingTwo">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                Comments
+            </button>
+        </h2>
+        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+            data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+
+            </div>
+        </div>
+    </div>
+    {{/if}}
+</div>
+<script src="./js/create-post.js"></script>

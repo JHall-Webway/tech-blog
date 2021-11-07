@@ -1,7 +1,9 @@
 const router = require('express').Router();
 const { Post, Comment } = require('../../models');
+const sequelize = require('../../config/connection');
+const withAuth = require('../../utils/auth');
 
-router.post('/', ({ body }, res) => {
+router.post('/', withAuth, ({ body }, res) => {
     Post.create(body)
         .then(dbResponse => res.json(dbResponse))
         .catch(data => {
@@ -13,9 +15,13 @@ router.post('/', ({ body }, res) => {
 
 router.get('/', (req, res) => {
     Post.findAll({
+        attributes:['id', 'post_title', 'post_text', 'user_id', [sequelize.literal('(SELECT COUNT(*) FROM comment WHERE post.id = comment.post_id)'), 'comment_count']],
         include: {
             model: Comment,
-            attributes: ['id', 'comment_text', 'user_id']
+            attributes: ['id',
+                'comment_text',
+                'user_id'
+            ]
         }
     })
         .then(dbResponse => {
@@ -35,9 +41,13 @@ router.get('/', (req, res) => {
 router.get('/:id', ({ params }, res) => {
     Post.findOne({
         where: { id: params.id },
+        attributes:['id', 'post_title', 'post_text', 'user_id', [sequelize.literal('(SELECT COUNT(*) FROM comment WHERE post.id = comment.post_id)'), 'comment_count']],
         include: {
             model: Comment,
-            attributes: ['id', 'comment_text', 'user_id']
+            attributes: ['id',
+                'comment_text',
+                'user_id'
+            ]
         }
     })
         .then(dbResponse => {
@@ -54,7 +64,7 @@ router.get('/:id', ({ params }, res) => {
         });
 });
 
-router.put('/:id', (req, res) => {
+router.put('/:id', withAuth, (req, res) => {
     Post.update(req.body, { where: { id: req.params.id } })
         .then(dbResponse => {
             if (!dbResponse) {
@@ -70,7 +80,7 @@ router.put('/:id', (req, res) => {
         });
 });
 
-router.delete('/:id', ({ params }, res) => {
+router.delete('/:id', withAuth, ({ params }, res) => {
     Post.destroy({ where: { id: params.id } })
         .then(dbResponse => {
             if (!dbResponse) {
@@ -86,7 +96,7 @@ router.delete('/:id', ({ params }, res) => {
         });
 });
 
-router.post('/:id', (req, res) => {
+router.post('/:id', withAuth, (req, res) => {
     Comment.create({
         comment_text: req.body.comment_text,
         user_id: req.body.user_id,
@@ -100,7 +110,7 @@ router.post('/:id', (req, res) => {
         });
 });
 
-router.delete('/comment/:id', ({ params }, res) => {
+router.delete('/comment/:id', withAuth, ({ params }, res) => {
     Comment.destroy({ where: { id: params.id } })
         .then(dbResponse => {
             if (!dbResponse) {

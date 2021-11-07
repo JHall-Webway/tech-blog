@@ -1,0 +1,30 @@
+<div class="col-12 m-2" id="post_{{id}}">
+    <div class="card border border-dark">
+        <div class="card-body">
+            <div class="card-title">
+                <h6 class="card-subtitle mb-2 text-muted">Posted by {{user.username}} on {{format_date createdAt}}</h6>
+                <h5 id="post_title_{{id}}">{{post_title}}</h5>
+            </div>
+            <p class="card-text" id="post_body_{{id}}">{{post_text}}</p>
+            {{#unless single}}
+            <a href="/{{id}}" class="card-link">Comments: {{comment_count}}</a>
+            {{/unless}}
+            {{#if current_user}}
+            <div class="card-body">
+                <button type="button" class="btn btn-primary btn-sm" id="edit_btn_{{id}}"
+                    onclick="editPost({{id}})">edit</button>
+                <button type="button" class="btn btn-primary btn-sm" id="save_btn_{{id}}" onclick="savePost({{id}})"
+                    style="display: none;">Save</button>
+                <button type="button" class="delete-post btn btn-secondary btn-sm" id="delete_btn_{{id}}"
+                    onclick="deletePost({{id}})">delete</button>
+            </div>
+            {{/if}}
+            {{#if single}}
+            {{#each comments as |comment|}}
+            {{> comment-card comment}}
+            {{/each}}
+            {{/if}}
+        </div>
+    </div>
+</div>
+{{log 'post' post}}

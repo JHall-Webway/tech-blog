@@ -1,8 +1,0 @@
-:root {
-    --site-color: rgb(135, 237, 204);
-    --post-color: rgb(237, 237, 237);
-}
-
-body {
-    background-color: var(--site-color);
-}

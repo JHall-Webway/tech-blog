@@ -1,0 +1,22 @@
+{{> post-card post}}
+<div class="accordion" id="newCommentForm">
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="headingOne">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+                aria-expanded="true" aria-controls="collapseOne">
+                Post Comment
+            </button>
+        </h2>
+        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+            data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+                <form class="mb-3">
+                    <textarea class="form-control" id="commentInput" rows="3"></textarea>
+                    <button type="click" class="btn btn-primary btn-sm m-3" id="sendInput" onsubmit="createComment({{commentObj}})">Post
+                        Comment</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/js/create-comment.js"></script>

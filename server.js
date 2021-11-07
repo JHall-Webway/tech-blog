@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const sequelize = require('./config/connection');
 
+
 const SequelizeStore = require('connect-session-sequelize')(require('express-session').Store);
 app.use(require('express-session')({
     secret: process.env.SESSION,

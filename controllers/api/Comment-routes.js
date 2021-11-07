@@ -1,6 +1,11 @@
 const router = require('express').Router();
 const { Comment } = require('../../models');
 
+router.get('/', (req, res) => {
+    Comment.findAll()
+        .then(response => res.json(response))
+})
+
 router.post('/', ({ body }, res) => {
     Comment.create(body)
         .then(dbResponse => res.json(dbResponse));

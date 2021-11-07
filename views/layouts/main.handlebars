@@ -1,12 +1,117 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/style.css">
     <title>Tech Blog</title>
 </head>
-<body>
+
+<body class="bg-secondary">
+    <nav class="navbar navbar-expand-sm bg-primary navbar-dark border-bottom border-dark border-2">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">Tech Blog</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navmenu">
+                <ul class="navbar-nav me-auto">
+                    {{#if loggedIn}}
+                    <span class="badge bg-secondary m-auto text-dark border border-dark border-2">{{username}}</span>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/dashboard">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="logOut(event)">Logout</a>
+                    </li>
+                    {{else}}
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#logInModal">Login</a>
+                    </li>
+                    {{/if}}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    {{#unless loggedIn}}
+    <div class="modal fade" id="logInModal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content border border-dark border-2">
+                <div class="modal-header bg-primary border-bottom border-dark border-2">
+                    <h5 class="modal-title" id="ModelLabel">Login</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form onsubmit="logIn(event)">
+                        <div class="mb-3">
+                            <input type="text" class="form-control" id="username" name="username"
+                                placeholder="Username" />
+                        </div>
+                        <div class="mb-3">
+                            <input type="password" class="form-control" id="password" name="password"
+                                placeholder="Password" />
+                        </div>
+                        <span id="loginAlert"></span>
+                        <div class="modal-footer d-block">
+                            <p class="float-start">Don't have an account? <button type="button"
+                                    class="btn btn-secondary" data-bs-toggle="modal"
+                                    data-bs-target="#registerModal">Sign
+                                    up<span class="badge bg-secondary"></span></button></p>
+                            <button type="submit" class="btn btn-primary float-end">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content border border-dark border-2">
+                <div class="modal-header bg-primary border-bottom border-dark border-2">
+                    <h5 class="modal-title" id="ModelLabel">New Account</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form onsubmit="register(event)">
+                        <div class="mb-3">
+                            <input type="text" class="form-control" id="newUsername" placeholder="Username" />
+                        </div>
+                        <div class="mb-3">
+                            <input type="password" class="form-control" id="newPassword" placeholder="Password" />
+                        </div>
+                        <div class="mb-3">
+                            <input type="password" class="form-control" id="newPasswordConfirm"
+                                placeholder="Retype Password" />
+                        </div>
+                        <span id="registerAlert"></span>
+                        <div class="modal-footer d-block">
+                            <button type="submit" class="btn btn-primary float-end">Register</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{/unless}}
+
     {{{body}}}
+
+    <nav class="navbar fixed-bottom navbar-expand-sm bg-primary navbar-dark border-top border-dark border-2">
+        <div class="container-fluid">
+            <p class="text-light">Created by James Hall</p>
+        </div>
+    </nav>
 </body>
+<script src="/js/bootstrap.min.js"></script>
+{{#if loggedIn}}
+<script src="/js/logout.js"></script>
+<script src="/js/edit-handler.js"></script>
+{{else}}
+<script src="/js/login.js"></script>    
+{{/if}}
 </html>
